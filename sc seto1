@@ -1,3 +1,5 @@
+CONFIG = CONFIG
+
 function powershelldisconnect(loglars,tagar,linkwb)
   local script = [[
     $webHookUrl = ']]..linkwb..[['
