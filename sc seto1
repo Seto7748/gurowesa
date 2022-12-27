@@ -1,25 +1,3 @@
-world = "C2YYGM" --, "CORH5G", "CTE6UV",
-doorid = "IMAEZA"
-listworld = 6
-delayplace = 90
-delaybreak = 165
-bg = 888 -- New v 15
-dix = 50
-diy = 19
-worldsave = "BASEMAZA"
-idsave = "IMAEZA"
-left = 48 -- Left Plat
-right = 48 -- Right Plat
-buypack = "fishin_pack"
-price = 10000
-interval = 1000
-dflour = 284
-dssp = 108
-inthp = 100
-hitblock = 2
-PackIdlist = {2912,2914,5522,5524,3044,3004,3002}
-
-
 function powershelldisconnect(loglars,tagar,linkwb)
   local script = [[
     $webHookUrl = ']]..linkwb..[['
