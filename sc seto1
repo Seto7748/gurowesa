@@ -322,6 +322,7 @@ function main()
         findPath(math.floor(dix),math.floor(diy))
         sleep(1000*5)
       end
+    end
 
     join(world,doorid)
     sleep(7000)
