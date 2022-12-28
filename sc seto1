@@ -299,17 +299,37 @@ function main()
       end
     end
 
+    local function jeda()
+      if os.date("!*t", os.time() + 7 * 60 * 60).hour == waktustop1 or os.date("!*t", os.time() + 7 * 60 * 60).hour == waktustop2 then
+        sleep(1000)
+        setBool("Auto Reconnect", false)
+        sleep(1000)
+        disconnect()
+        sleep(1000)
+        powershelldisconnect("Jeda Bot Selama "..berapalama.." Jam","<@991882071809200188>","https://discord.com/api/webhooks/985028245609119835/KywgdJEFh-bJ1d5poOZwD141nEGYsykgpt0HWY4X7Rq_ny6I8-IHHMjFy62xLmtnsB0W")
+        sleep(1000 * 60 * 60 * berapalama)
+        sleep(2000)
+        connect()
+        sleep(15000)
+        while getBot().status ~= "online" do
+          connect()
+          sleep(15000)
+        end
+        sleep(2000)
+        powershelldisconnect("Bot Selesai jeda","","https://discord.com/api/webhooks/985028245609119835/KywgdJEFh-bJ1d5poOZwD141nEGYsykgpt0HWY4X7Rq_ny6I8-IHHMjFy62xLmtnsB0W")
+        join(world,doorid)
+        sleep(5000)
+        findPath(math.floor(dix),math.floor(diy))
+        sleep(1000*5)
+      end
+
     join(world,doorid)
     sleep(7000)
     say("Who Buy?")
     sleep(5000)
     while true do
+      jeda()
       capta()
-      if getBot().status:find("suspend") then
-        sleep(1000)
-        powershelldisconnect("Bot Got Suspended","<@991882071809200188>","https://discord.com/api/webhooks/1025459447730032771/pURjBQkOY5dlw8UykoMZm6VKsfpFpNmBVL18oowChzZcSG7s0XZVfLNquisAXe7mql4-")
-        sleep(1000)
-      end
       while findItem(112) >= price do
         sleep(5000)
         sendPacket(2, "action|buy\nitem|"..buypack)
