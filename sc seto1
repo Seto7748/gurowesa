@@ -73,24 +73,18 @@ function main()
 
     local function rec()
       if getBot().status ~= "online" then
-        sleep(2000)
-        setBool("Auto Reconnect", false)
         sleep(60000)
-        connect()
         sleep(5000)
         while getBot().status ~= "online" do
           sleep(20000)
-          connect()
           if getBot().status:find("login") then
             sleep(2000)
             while getBot().status:find("login") do
               sleep(15000)
-              connect()
               sleep(5000)
             end
           end
         end        
-        sleep(3000)
         sleep(10000)
         join(world,doorid)
         sleep(10000)
@@ -110,9 +104,6 @@ function main()
         connect()
         sleep(15000)        
         while getBot().captcha == "Couldn't solve" do
-          disconnect()
-          sleep(15000)
-          connect()
           sleep(15000)
         end
         if getTile(math.floor(getBot().x/32),math.floor(getBot().y/32)).fg == 6 then
@@ -206,6 +197,7 @@ function main()
     rec()
         dropblock(880, 4562)
         sleep(1000)
+        powershelldisconnect("Flour : "..gs(4562).." Ssp : "..gs(5706),"","https://discord.com/api/webhooks/995156393575333999/uAzq-hH_jIDYA2-91dHSRwkWXuftVk3-n49iPJdd67Ps3U4NXEGp0Y05oXTVl_D3C9U5")
         join(world,doorid)
         sleep(300)
         count = 0
@@ -221,6 +213,31 @@ function main()
     end
 
     local function move2()
+      while true do
+        sleep(500)
+        takeblock(dssp, 5706)
+        sleep(500)
+        join(worldsave,idsave)
+        sleep(500)
+    rec()
+        dropblock(880, 5706)
+        sleep(1000)
+        powershelldisconnect("Flour : "..gs(4562).." Ssp : "..gs(5706),"","https://discord.com/api/webhooks/995156393575333999/uAzq-hH_jIDYA2-91dHSRwkWXuftVk3-n49iPJdd67Ps3U4NXEGp0Y05oXTVl_D3C9U5")
+        join(world,doorid)
+        sleep(300)
+        count = 0
+        for _, object in pairs(getObjects()) do
+          if object.id == 5706 then
+            count = count + object.count
+          end
+        end
+        if count < 199 then
+          break
+        end
+      end
+    end
+
+    local function move3()
       collectSet(false, 2)
       while true do
         sleep(500)
@@ -301,9 +318,10 @@ function main()
         sleep(1000 * 60 * 60 * berapalama)
         sleep(2000)
         connect()
+        sleep(2000)
+        setBool("Auto Reconnect",  true)
         sleep(15000)
-        while getBot().status ~= "online" do
-          connect()
+        while getBot().status ~= "online" do          
           sleep(15000)
         end
         sleep(2000)
@@ -333,7 +351,7 @@ function main()
       end
       if findItem(3044) > 0 then
         sleep(500)
-        move2()
+        move3()
       end
       if findItem(12498) >= 3 then
          join(worldsave, idsave)
