@@ -348,7 +348,7 @@ function main()
         sendPacket(2, "action|buy\nitem|upgrade_backpack")
         sleep(5000)
       end
-
+      
       if findItem(12498) >= 3 then
          join(worldsave, idsave)
          for _, tile in pairs(getTiles()) do
@@ -409,12 +409,12 @@ function main()
       findPath(math.floor(dix),math.floor(diy))
       clear()
       sleep(1000)
-      setBool("Ignore Gems", true)
+      setBool("Ignore Gems", false)
       sleep(interval)
       collectSet(true,2)
       pnb2()
       sleep(1000)
-      setBool("Ignore Gems", false)
+      setBool("Ignore Gems", true)
       move(-1,0)
       sleep(200)
       for il = (left),-1,-1 do
@@ -472,12 +472,12 @@ function main()
       rec()
       findPath(math.floor(dix),math.floor(diy))
       sleep(1000)
-      setBool("Ignore Gems", true)
+      setBool("Ignore Gems", false)
       sleep(interval)
       collectSet(true,2)
       pnb2()
       sleep(1000)
-      setBool("Ignore Gems", false)
+      setBool("Ignore Gems", true)
       move(1,0)
       sleep(200)
       for ir = (right),1,-1 do
