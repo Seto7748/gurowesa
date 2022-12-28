@@ -348,10 +348,7 @@ function main()
         sendPacket(2, "action|buy\nitem|upgrade_backpack")
         sleep(5000)
       end
-      if findItem(3044) > 0 then
-        sleep(500)
-        move3()
-      end
+
       if findItem(12498) >= 3 then
          join(worldsave, idsave)
          for _, tile in pairs(getTiles()) do
