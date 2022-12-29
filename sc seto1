@@ -321,6 +321,7 @@ function main()
         setBool("Auto Reconnect", true)
         sleep(15000)
         while getBot().status ~= "online" do          
+          connect()
           sleep(15000)
         end
         sleep(2000)
