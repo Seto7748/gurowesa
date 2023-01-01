@@ -74,12 +74,9 @@ function main()
     local function rec()
       if getBot().status ~= "online" then
         sleep(60000)
-        connect()
         sleep(5000)
         while getBot().status ~= "online" do
-          sleep(20000)
-          connect()
-          sleep(10000)
+          sleep(21000)
         end        
         sleep(10000)
         join(world,doorid)
