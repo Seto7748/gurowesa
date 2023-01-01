@@ -337,10 +337,6 @@ function main()
                 Drp = nil
               end
             end
-            join(world,doorid)
-            sleep(1000)
-            findPath(math.floor(dix),math.floor(diy))
-            sleep(2000)
           end
         end
       end
