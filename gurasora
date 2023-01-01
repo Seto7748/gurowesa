@@ -1,0 +1,389 @@
+
+tresh1 = { 882, -- Butterfly Leash
+5028, -- Earth Essence
+5032, -- Fissure
+5034, -- Waterfall
+5036, -- Hidden Door
+5038, -- Anemone
+5040, -- Aurora
+5042, -- Obsidian
+5044, -- Lava Lamp
+7162, -- Hour Glass
+3,
+2,
+7164 -- Red House Entrance
+}
+
+
+function clear()
+    for _,i in ipairs(tresh1) do
+        if findItem(i) > 0 then 
+            local tresh = findItem(i)
+            sendPacket(2, "action|trash\n|itemID|".. i)
+            sendPacket(2, "action|dialog_return\ndialog_name|trash_item\nitemID|" .. i .. "|\ncount|" .. tresh) 
+            sleep(1000)
+            tresh = nil
+        end
+    end
+end
+
+function wp(world, id)
+    for i = 1, 2 do
+        sendPacket(3,"action|join_request\nname|"..string.upper(world).."|"..string.upper(id).."\ninvitedWorld|0")
+        sleep(5000)
+    end
+end
+
+function kerjaRodi()
+    if getTile(math.floor(getBot().x/32),math.floor(getBot().y/32)).fg == 6 then
+        on = false
+        sleep(300)
+    end
+end
+
+function capta()
+    if getBot().captcha == "Couldn't solve" then
+        connect()
+        sleep(25000)
+        while getBot().captcha == "Couldn't solve" do
+            connect()
+            sleep(20000)
+        end
+        if getTile(math.floor(getBot().x/32),math.floor(getBot().y/32)).fg == 6 then
+            on = false
+            sleep(1000)
+            wp(world,doorid)
+            sleep(1000)
+            findPath(tile[bot].x,tile[bot].y)
+            sleep(2000)
+            on = true
+            sleep(1000)
+        end
+    end
+end
+
+function rec()
+   if getBot().status ~= "online" then
+      sleep(3000)
+      while getBot().status ~= "online" do
+         sleep(10000)
+      end
+      on = false
+      sleep(10000)
+      wp(world,doorid)
+      sleep(10000)
+      wp(world,doorid)
+      say("`2Reconnected")
+      sleep(5000)
+      findPath(tile[bot].x,tile[bot].y)
+      sleep(1600)
+      on = true
+   end
+end
+
+function moveflour()
+  count = 0
+  for _, object in pairs(getObjects()) do
+    if object.id == 4562 then
+      count = count + object.count
+    end
+    if count > 199 then
+      move1()
+    end
+  end
+  return count
+end
+
+function movessp()
+  count = 0
+  for _, object in pairs(getObjects()) do
+    if object.id == 5706 then
+      count = count + object.count
+    end
+    if count > 199 then
+      move2()
+    end
+  end
+  return count
+end
+
+
+function dropblock(dropss, ItemID)
+    for _, tile in pairs(getTiles()) do
+      if tile.fg == dropss then
+        findPath(tile.x,tile.y) 
+        sleep(2000)
+        drop(ItemID)
+        sleep(2000)
+        if findItem(ItemID) == 0 then goto END end
+          punch(0,0)
+          sleep(300)
+          punch(0,0)
+          sleep(300)
+      end
+   end
+::END::
+end
+
+function takeblock(takes, ItemID)
+  for _, tile in pairs(getTiles()) do
+    if tile.bg == takes then
+      findPath(tile.x,tile.y)
+      sleep(1000)
+      collectSet(true,2)
+      sleep(1000)
+      collectSet(false,2)
+      if findItem(ItemID) > 199 then goto END end
+    end
+  end
+::END::
+end
+
+function move1()
+   while true do
+      sleep(300)
+      takeblock(dflour, 4562)
+      sleep(300)
+      wp(worldsave,idsave)
+      sleep(300)
+rec()
+      dropblock(880, 4562)
+      sleep(300)
+      wp(world,doorid)
+      sleep(300)
+      count = 0
+      for _, object in pairs(getObjects()) do
+         if object.id == 4562 then
+            count = count + object.count
+         end
+      end
+      if count < 199 then
+         break
+      end
+   end
+end
+
+function move2()
+   while true do
+      sleep(300)
+      takeblock(dssp, 5706)
+      sleep(300)
+      wp(worldsave,idsave)
+      sleep(300)
+rec()
+      dropblock(340, 5706)
+      sleep(300)
+      wp(world,doorid)
+      sleep(300)
+      count = 0
+      for _, object in pairs(getObjects()) do
+         if object.id == 5706 then
+            count = count + object.count
+         end
+      end
+      if count < 199 then
+         break
+      end
+   end
+end
+
+function pnb2()
+    place(880,-1,0)
+    sleep(delayplace)
+    place(880,1,0)
+    sleep(delayplace)
+    capta()
+    for i = 0, hitblock, 1 do
+        punch(-1,0)
+        sleep(delaybreak)
+        punch(1,0)
+        sleep(delaybreak)
+        capta()
+    end
+    rec()
+end
+
+function pnb3()
+  while findItem(880) > 0 do
+    place(880,-1,0)
+    sleep(delayplace)
+    while getTile(math.floor(getposx() /32) -1,math.floor(getposy() /32)).fg ~= 0 do
+        punch(-1,0)
+        sleep(delaybreak)
+    end
+    rec()
+    capta()
+  end
+end
+
+-- pnb(880,getposx()/32+1,getposy()/32
+bot = 1
+wp(world,doorid)
+sleep(7000)
+tile = {}
+for _,t in pairs(getTiles()) do
+   if t.bg == bg then
+      tile[#tile+1] = {x = t.x,
+      y = t.y
+   }
+    end
+end
+
+while true do
+capta()
+say("sell wing go `2GOGOKUS")
+if on then
+if findItem(112) >= price then
+   sendPacket(2, "action|buy\nitem|"..buypack)
+end
+if findItem(12498) >= 1 then
+   wp(worldsave, idsave)
+   for _, tile in pairs(getTiles()) do
+      if tile.bg == 118 then
+         findPath(tile.x,tile.y)
+         collectSet(false,2)
+         sleep(1200)
+         drop(12498)
+         sleep(1200)
+         wp(world,doorid)
+         sleep(300)
+         collectSet(true,2)
+      end
+   end
+end
+moveflour()
+movessp(s)
+rec()
+   if findItem(880) >= 100 and findItem(881) >= 100 then
+      for _, tile in pairs(getTiles()) do
+         if tile.fg == 4582 then
+            findPath(tile.x,tile.y+1)
+            sleep(interval)
+            place(880,0,-1)
+rec()     
+            sleep(500)
+            sendPacket(2, "action|dialog_return\ndialog_name|grinder\ntilex|"..(getposx()/32).."|\ntiley|"..(getposy()/32 - 1).."|\nitemID|880|\ncount|2")
+            sleep(1000)
+            say("Sell wing 8wl")
+            for _, tile in pairs(getTiles()) do
+               if tile.bg == dflour then            
+                  findPath(tile.x -1,tile.y)
+                  collectSet(false,2)
+                  if findItem(4562) > 1 then
+                     sleep(1500)
+                     drop(4562)
+rec()                  
+                     sleep(1000)
+                  end
+                  if findItem(5706) > 9 then
+                     for _, tile in pairs(getTiles()) do
+                        if tile.bg == dssp then
+                           findPath(tile.x,tile.y)
+                           collectSet(false,2)
+                           sleep(1500)
+                           drop(5706)
+rec()                        
+                           sleep(1000)
+                           say("Buy wing for")
+                        end
+                     end
+                  end
+               end
+            end
+         end
+      end
+   end
+rec()
+   findPath(tile[bot].x,tile[bot].y)
+   sleep(100)
+   clear()
+   sleep(interval)
+   collectSet(true,2)
+   pnb3()
+   move(-1,0)
+   sleep(500)
+   setBool("Ignore Gems", true)
+   for i = (left),-1,-1 do
+      move(-1,0)
+      sleep(inthp)
+      punch(0,0)
+      sleep(inthp)
+rec()   
+   end
+   for i = (right),1,-1 do
+      move(1,0)
+      sleep(inthp)
+      place(881,0,0)
+      sleep(inthp)
+rec()
+   end
+   sleep(500)
+   setBool("Ignore Gems", false)
+   collectSet(false,2)
+   if findItem(880) >= 100 and findItem(881) >= 100 then
+      for _, tile in pairs(getTiles()) do
+         if tile.fg == 4582 then
+            findPath(tile.x,tile.y+1)
+            sleep(interval)
+            place(880,0,-1)
+rec()    
+            sleep(500)
+            sendPacket(2, "action|dialog_return\ndialog_name|grinder\ntilex|"..(getposx()/32).."|\ntiley|"..(getposy()/32 - 1).."|\nitemID|880|\ncount|2")
+            sleep(1000)
+            say("Sell wing 8wl")
+            for _, tile in pairs(getTiles()) do
+               if tile.bg == dflour then            
+                  findPath(tile.x -1,tile.y)
+                  collectSet(false,2)
+                  if findItem(4562) > 1 then
+                     sleep(1500)
+                     drop(4562)
+rec()                     
+                     sleep(1000)
+                  end
+                  if findItem(5706) > 9 then
+                     for _, tile in pairs(getTiles()) do
+                        if tile.bg == dssp then
+                           findPath(tile.x,tile.y)
+                           collectSet(false,2)
+                           sleep(1500)
+                           drop(5706)
+rec()                      
+                           sleep(1000)
+                           say("Buy wing for")
+                        end
+                     end
+                  end
+               end
+            end
+         end
+      end
+   end
+rec()
+   findPath(tile[bot].x,tile[bot].y)
+   sleep(interval)
+   collectSet(true,2)
+   pnb3()
+   sleep(500)
+   setBool("Ignore Gems", true)
+   move(1,0)
+   sleep(100)
+   for i = (right),1,-1 do
+      move(1,0)
+      sleep(inthp)
+      punch(0,0)
+      sleep(inthp)
+rec()     
+   end
+   for i = (left),1,-1 do
+      move(-1,0)
+      sleep(inthp)
+      place(881,0,0)
+      sleep(inthp)
+rec()
+   end
+   sleep(500)
+   setBool("Ignore Gems", false)
+   collectSet(false,2)
+end
+end
