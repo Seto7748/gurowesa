@@ -207,11 +207,12 @@ function pnb3()
   while findItem(880) > 0 do
     place(880,-1,0)
     sleep(delayplace)
+    rec()
     while getTile(math.floor(getposx() /32) -1,math.floor(getposy() /32)).fg ~= 0 do
         punch(-1,0)
         sleep(delaybreak)
+        rec()
     end
-    rec()
     capta()
   end
 end
