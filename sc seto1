@@ -79,14 +79,7 @@ function main()
         while getBot().status ~= "online" do
           sleep(20000)
           connect()
-          if getBot().status:find("login") then
-            sleep(2000)
-            while getBot().status:find("login") do
-              sleep(15000)
-              connect()
-              sleep(5000)
-            end
-          end
+          sleep(10000)
         end        
         sleep(10000)
         join(world,doorid)
@@ -311,6 +304,48 @@ function main()
       end
     end
 
+    local function faceSide()
+      local pkt = {}
+      pkt.type = 0
+      pkt.flags = 48
+      pkt.pos_x = getBot().x
+      pkt.pos_y = getBot().y
+      sendPacketRaw(pkt)
+    end
+
+    listset = {208,214,1844,496,818}
+    local function takeset()
+      if findItem(208) == 0 then
+        join("BASEOSAS","IMAEZA")
+        for _, object in pairs(getObjects()) do
+          if object.id == 208 then
+            findPath(math.floor(object.x/32)+1,math.floor(object.y/32))
+            sleep(1000)
+            collectSet(true,2)
+            sleep(1000)
+            collectSet(false,2)
+            sleep(1000)
+            faceSide()
+            sleep(1000)
+            for _,is in ipairs(listset) do
+              if findItem(is) > 1 then
+                local Drp = findItem(is)
+                drops(is,findItem(is)-1)
+                sleep(500)
+                wear(is)
+                sleep(500)
+                Drp = nil
+              end
+            end
+            join(world,doorid)
+            sleep(1000)
+            findPath(math.floor(dix),math.floor(diy))
+            sleep(2000)
+          end
+        end
+      end
+    end
+
     local function jeda()
       if os.date("!*t", os.time() + 7 * 60 * 60).hour == waktustop1 or os.date("!*t", os.time() + 7 * 60 * 60).hour == waktustop2 then
         sleep(1000)
@@ -335,12 +370,15 @@ function main()
       end
     end
 
+    takeset()
+    sleep(4000)
     join(world,doorid)
-    sleep(7000)
+    sleep(4000)
     say("Who Buy?")
-    sleep(5000)
+    sleep(1000)
+    sendPacket(2,"action|setSkin\ncolor|3370516479")
+    sleep(4000)
     while true do
-      jeda()
       capta()
       while findItem(112) >= price do
         sleep(5000)
