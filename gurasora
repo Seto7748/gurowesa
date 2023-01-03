@@ -43,11 +43,17 @@ end
 
 function capta()
     if getBot().captcha == "Couldn't solve" then
+        sleep(5000)
+        disconnect()
+        sleep(10000)
         connect()
         sleep(25000)
         while getBot().captcha == "Couldn't solve" do
+            sleep(5000)
+            disconnect()
+            sleep(10000)
             connect()
-            sleep(20000)
+            sleep(25000)
         end
         if getTile(math.floor(getBot().x/32),math.floor(getBot().y/32)).fg == 6 then
             on = false
