@@ -211,6 +211,7 @@ function pnb3()
     while getTile(math.floor(getposx() /32) -1,math.floor(getposy() /32)).fg ~= 0 do
         punch(-1,0)
         sleep(delaybreak)
+        capta()
         rec()
     end
     capta()
